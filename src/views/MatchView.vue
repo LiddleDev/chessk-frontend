@@ -40,7 +40,6 @@ const whiteAtBottom = computed(() => {
 })
 
 ws.onmessage = (event) => {
-  console.log(event.data)
   gameState.value = {...gameState.value, ...JSON.parse(event.data)};
 };
 
