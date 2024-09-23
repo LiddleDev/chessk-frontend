@@ -15,7 +15,7 @@ function startPlaying() {
     return;
   }
 
-  axios.post('https://chessk-backend.liddlelabs.com:8080/login', {
+  axios.post('https://chessk-backend.liddlelabs.com/login', {
     name: name.value,
   })
       .then(res => {

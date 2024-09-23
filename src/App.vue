@@ -27,7 +27,7 @@ axios.interceptors.response.use(function (response) {
 if (!userStore.name) {
   router.push('/login');
 } else {
-  axios.get('https://chessk-backend.liddlelabs.com:8080/user')
+  axios.get('https://chessk-backend.liddlelabs.com/user')
       .then(res => {
         userStore.$patch({
           name: res.data.name,
