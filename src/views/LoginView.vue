@@ -15,7 +15,7 @@ function startPlaying() {
     return;
   }
 
-  axios.post('http://18.132.181.26:8080/login', {
+  axios.post('https://chessk-backend.liddlelabs.com:8080/login', {
     name: name.value,
   })
       .then(res => {

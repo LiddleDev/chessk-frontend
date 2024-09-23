@@ -9,14 +9,14 @@ import router from "@/router/index.js";
 const route = useRoute();
 const userStore = useUserStore();
 
-axios.get('http://18.132.181.26:8080/matches/'+route.params.code)
+axios.get('https://chessk-backend.liddlelabs.com:8080/matches/'+route.params.code)
   .then(res => {
   })
   .catch(err => {
     router.push('/')
   })
 
-const ws = new WebSocket('ws://18.132.181.26:8080/ws');
+const ws = new WebSocket('wss://chessk-backend.liddlelabs.com/ws');
 
 onUnmounted(() => {
   ws.close()
