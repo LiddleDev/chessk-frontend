@@ -12,13 +12,13 @@ const createMatchForm = ref({
 
 const matches = ref([])
 
-axios.get('https://chessk-backend.liddlelabs.com/matches')
+axios.get(import.meta.env.VITE_API_URL + '/matches')
     .then(res => {
       matches.value = res.data;
     })
 
 function createMatch() {
-  axios.post('https://chessk-backend.liddlelabs.com/matches', {
+  axios.post(import.meta.env.VITE_API_URL + '/matches', {
       time: createMatchForm.value.time,
       increment: createMatchForm.value.increment,
     })

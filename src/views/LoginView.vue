@@ -15,7 +15,7 @@ function startPlaying() {
     return;
   }
 
-  axios.post('https://chessk-backend.liddlelabs.com/login', {
+  axios.post(import.meta.env.VITE_API_URL + '/login', {
     name: name.value,
   })
       .then(res => {

@@ -1,18 +1,28 @@
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const props = defineProps({
   gameState: Object,
+  squares: Array,
+  isMostRecent: Boolean,
   whiteAtBottom: Boolean,
 })
 
-const emit = defineEmits(["makeMove"]);
+watch(() => props.isMostRecent, (newValue, oldValue) => {
+  selectedRow.value = null;
+  selectedColumn.value = null;
+});
 
+const emit = defineEmits(["makeMove"]);
 
 const selectedRow = ref(null)
 const selectedColumn = ref(null)
 
 function selectSquare(row, col) {
+  if (!props.isMostRecent) {
+    return
+  }
+
   if (selectedRow.value === row && selectedColumn.value === col) {
     selectedRow.value = null
     selectedColumn.value = null
@@ -47,11 +57,15 @@ function selectSquare(row, col) {
 <template>
   <div>
     <div class="board flex flex-col" :class="{'flex-col-reverse': whiteAtBottom}">
-      <div class="flex" :class="{'flex-row-reverse': !whiteAtBottom}" v-for="(row, ri) in gameState.squares ?? []">
+      <div class="flex" :class="{'flex-row-reverse': !whiteAtBottom}" v-for="(row, ri) in squares ?? []">
         <div
             class="square white grow"
             :style="{backgroundImage: (column.piece && column.side) ? 'url(\'/'+column.side.toLowerCase()+'_'+column.piece.toLowerCase()+'.svg' : 'none'}"
-            :class="{'black': (ri + ci) % 2 === 0, 'selected': selectedRow === ri && selectedColumn === ci}"
+            :class="{
+              'black': (ri + ci) % 2 === 0,
+              'selected': selectedRow === ri && selectedColumn === ci,
+              'highlighted': isMostRecent && gameState.playingSide === gameState.currentSide && gameState.highlightSquare && gameState.highlightSquare.first === ri && gameState.highlightSquare.second === ci,
+            }"
             v-for="(column, ci) in row"
             @click="selectSquare(ri, ci)"
         >
@@ -84,5 +98,9 @@ function selectSquare(row, col) {
 
 .square.selected {
   background-color: #945f5f !important;
+}
+
+.square.highlighted {
+  background-color: #768da8 !important;
 }
 </style>
